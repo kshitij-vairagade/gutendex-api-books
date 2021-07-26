@@ -1,0 +1,18 @@
+{
+    "title": "Gutendex Books Project",
+    "api": "http://skunkworks.ignitesol.com:8000/",
+    "category":[
+        "Fiction",
+        "Drama",
+        "Humor",
+        "Politics",
+        "Philosophy",
+        "History",
+        "Adventure"
+    ],
+    "extensions":[
+        "text/html",
+        "application/pdf",
+        "text/plain; charset=utf-8:"
+    ]
+}

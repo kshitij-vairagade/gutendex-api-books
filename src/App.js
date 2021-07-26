@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Component } from "react";
+import queryString from "query-string";
+import { Route, withRouter } from "react-router-dom";
+import homepage from "./component/homepage";
+import booklist from "./component/booklist";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component() {
+  constructor(props) {
+    super(props);
+    this.pushGenre = this.genreHistory.bind(this);
+  }
+
+  genreHistory(topic) {
+    const search = {
+      topic,
+      mime_type: "image/jpeg",
+    };
+
+    const query = queryString.stringify(search);
+    this.props.history.push(`/books?${query}`);
+  }
+
+  render() {
+    return (
+      <>
+        <Route
+          exact
+          path="/"
+          component={() => <homepage setGenre={this.pushGenre} />}
+        />
+        <Route path="/books" component={() => <booklist />} />
+      </>
+    );
+  }
 }
 
-export default App;
+export default withRouter(App);

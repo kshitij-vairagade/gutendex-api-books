@@ -1,0 +1,7 @@
+.search{
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 40px;
+    cursor: pointer;
+}

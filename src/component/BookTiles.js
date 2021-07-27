@@ -1,10 +1,10 @@
 import React from "react";
 import "./BookTiles.css";
 
-const Tiles = ({ img, title, author }) => {
+const Tile = ({ img, title, author }) => {
   return (
     <div>
-      <img src={img} alt={title + "image"} className="bookImg" />
+      <img src={img} alt={title + " image"} className="bookImg" />
       <div className="detail">
         <h2 className="bookData">{title}</h2>
         <p className="bookData">{author}</p>
@@ -13,20 +13,18 @@ const Tiles = ({ img, title, author }) => {
   );
 };
 
-function BookTiles({ tilesData, onClickGrid }) {
+export default function BookTiles({ tileData, onClickGridItem }) {
   return (
     <div className="bookWrapper">
-      {tilesData.map((tile) => (
+      {tileData.map((tile) => (
         <div
           key={tile.title + tile.author + tile.id}
-          onClick={() => onClickGrid(tile)}
+          onClick={() => onClickGridItem(tile)}
           className="detailedContainer"
         >
-          <Tiles img={tile.img} title={tile.title} author={tile.author}></Tiles>
+          <Tile img={tile.img} title={tile.title} author={tile.author}></Tile>
         </div>
       ))}
     </div>
   );
 }
-
-export default BookTiles;

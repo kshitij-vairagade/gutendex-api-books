@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import backIcon from "../New Assets/icon/Back.svg";
+import svgIcons from "../New Assets/icon/indexData";
+import "./NavBar.css"
+import backIcon from "../New Assets/icon/Back.svg"
+import Search from "../New Assets/icon/Search.svg";
 
-class navbar extends Component {
+class NavBar extends Component {
   constructor(props) {
     super(props);
-    _.bindAll(this, "vauleInput");
+    _.bindAll(this, "valueInput");
   }
+
 
   valueInput(event) {
     const {
@@ -18,19 +22,24 @@ class navbar extends Component {
 
   render() {
     return (
-      <nav className={"navbar navbar-expand-lg navbar-light bg-light"}>
+        
+        <nav className={"navbar  navbar-expand-lg navbar-light bg-light"}>
         <button
           type="button"
-          className="btn btn-primry"
-          onClick={this.props.backNavigation}
+          className="back"
+          onClick={this.props.navigateBack}
           style={{ backgroundImage: backIcon }}
-        ></button>
-        <form className="form-inline my-2 my-lg-0 d-inline-block align-top">
+        >
+            Back
+        </button>
+        
+        <form className="form-search">
           <input
-            className="form-control mr-sm-2"
+            className="search"
             type="search"
-            placeholder="search"
+            placeholder="Search"
             aria-label="search"
+            style={{ backgroundImage: Search }}
             onChange={this.valueInput}
           />
         </form>
@@ -39,4 +48,4 @@ class navbar extends Component {
   }
 }
 
-export default navbar;
+export default NavBar;

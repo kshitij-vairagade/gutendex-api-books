@@ -31,7 +31,7 @@ function ListItem({ items, onSelect }) {
 const homepage = ({ setGenre }) => {
   return (
     <div>
-      <h4 className="title">{configData.pageTitle}</h4>
+      <h4 className="title">{configData.title}</h4>
       <h2 className="subtitle">{configData.subtitle}</h2>
       <ListItem items = {configData.category} onSelect={setGenre}/>
     </div>

@@ -1,35 +1,37 @@
-import React from "react";
-import { setupCache } from "axios-cache-adapter";
-import { api_path } from "../config.json";
-import axios from "axios";
-import { Component } from "react";
-import _ from "lodash";
+
 import queryString from "query-string";
-import { link } from "fs";
+import _ from "lodash";
+import axios from "axios";
+
+import { api_path } from "../config.json";
+import { setupCache } from "axios-cache-adapter";
+import { Component } from "react";
 import { withRouter } from "react-router-dom";
+
 import "./BookList.css";
 import NavBar from "./NavBar";
 import BookTiles from "./BookTiles";
 import configData from "../config.json";
+
 
 // Create `axios-cache-adapter` instance
 const cache = setupCache({
   maxAge: 15 * 60 * 1000,
 });
 
-// Create `axios` instance passing the newly created `cache.adapter`
+let isComponentMounted = false;
+
+//  `axios` instance passing the newly created `cache.adapter`
 const api = axios.create({
   adapter: cache.adapter,
 });
 
-let isComponentMounted = false;
-
-class booklist extends Component {
+class BookList extends Component {
   constructor(props) {
     super(props);
     _.bindAll(
       this,
-      "loadBooksbyLink",
+      "loadBooksByLink",
       "setSearchTextHandler",
       "onSearchHandler",
       "navigateBackHandler",
@@ -44,31 +46,30 @@ class booklist extends Component {
       hasMoreData: true,
       isLoading: false,
       topic: "",
-      openframe: false,
+      openFrame: false,
       frameSrc: "",
       title: "",
     };
-    this.previousBook = null;
+    this.previousBooks = null;
   }
 
   componentDidMount() {
     isComponentMounted = true;
-    const {
-      location: { search: searchString, pathName },
+    const { location: { search: searchString, pathname },
     } = this.props;
 
     const { search: searchText, topic } = queryString.parse(searchString);
     this.setState({ searchText, topic });
 
-    const loadLink = `${api_path}${searchString}`;
-    this.loadBooksbyLink(loadLink);
+    const loadLink = `${api_path}${pathname}${searchString}`;
+    this.loadBooksByLink(loadLink);
 
     this.loadCallback = _.debounce(this.addMoreBookTiles, 100);
-    this.debounceSearch = _.debounce(this.onSeachHandler, 500);
+    this.debouncedSearch = _.debounce(this.onSearchHandler, 500);
     document.addEventListener("scroll", this.loadCallback);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     isComponentMounted = false;
     document.removeEventListener("scroll", this.loadCallback);
   }
@@ -83,27 +84,28 @@ class booklist extends Component {
     }
 
     if (
-      document.documentElement.topScroll + window.innerHeight >=
+      document.documentElement.scrollTop + window.innerHeight >=
       document.documentElement.offsetHeight
     ) {
-      this.loadBooksbyLink(next);
+      this.loadBooksByLink(next);
     }
   }
 
-  async loadBooksbyLink(link) {
-    // books loading from url
+  async loadBooksByLink(link) {
+    // loading books by provided url.
     if (this.state.isLoading) {
+      // Dont go below if already loading
       return;
     }
     try {
       this.setState({ isLoading: true });
       const response = await api.get(link);
-      const { result, next } = response.data;
-      const imageBooksList = result.filter(
-        ({ formats }) => !!formats["images/jpeg"]
+      const { results, next } = response.data;
+      const posterImageBooksList = results.filter(
+        ({ formats }) => !!formats["image/jpeg"]
       );
       const books = _.map(
-        imageBooksList,
+        posterImageBooksList,
         ({ title, authors, id, formats }) => ({
           title,
           author: authors[0] ? authors[0].name : "No authors",
@@ -131,42 +133,42 @@ class booklist extends Component {
 
   setSearchTextHandler(searchText) {
     this.setState({ searchText });
-    this.debounceSearch();
+    this.debouncedSearch();
   }
 
-  onSeachHandler() {
+  onSearchHandler() {
     const {
-      location: { search: searchString, pathName },
+      location: { search: searchString, pathname },
     } = this.props;
 
     const searchObj = {
       ...queryString.parse(searchString),
       search: this.state.searchText,
     };
-    if (!this.previousBook) {
-      this.previousBook = _.clone(this.state.books);
+    if (!this.previousBooks) {
+      this.previousBooks = _.clone(this.state.books);
     }
     this.setState({ books: [] });
-    this.loadBooksbyLink(
-      `${api_path}${pathName}?${queryString.stringify(searchObj)}`
+    this.loadBooksByLink(
+      `${api_path}${pathname}?${queryString.stringify(searchObj)}`
     );
   }
 
   navigateBackHandler() {
-    if (this.state.openframe) {
-      this.setState({ openframe: false, title: "" });
-    } else if (this.previousBook) {
+    if (this.state.openFrame) {
+      this.setState({ openFrame: false, title: "" });
+    } else if (this.previousBooks) {
       this.setState({
-        books: this.previousBook,
+        books: this.previousBooks,
       });
     } else {
       const { history } = this.props;
       history.push("/");
     }
-    this.previousBook = null;
+    this.previousBooks = null;
   }
 
-  async onClickGridItems({ formats, title }) {
+  async onClickGridItem({ formats, title }) {
     let link = null;
     _.forEach(configData.extensions, (format) => {
       const formatLink = _.find(_.keys(formats), (bookFormat) => {
@@ -179,7 +181,7 @@ class booklist extends Component {
     });
     this.setState({
       frameSrc: link,
-      openframe: true,
+      openFrame: true,
       title,
     });
   }
@@ -192,15 +194,13 @@ class booklist extends Component {
       topic,
       hasMoreData,
       searchText,
-      openframe,
+      openFrame,
       frameSrc,
       title,
     } = this.state;
-
     if (error) {
       alert(error);
     }
-
     return (
       <div>
         <NavBar
@@ -209,7 +209,7 @@ class booklist extends Component {
           searchText={searchText}
         />
         <h1>{topic + " " + title}</h1>
-        {openframe && <iframe title={"myfame"} src={frameSrc}></iframe>}
+        {openFrame && <iframe title={"myfame"} src={frameSrc}></iframe>}
         <BookTiles
           tileData={books}
           onClickGridItem={this.onClickGridItem}
@@ -225,4 +225,4 @@ class booklist extends Component {
   }
 }
 
-export default withRouter(booklist);
+export default withRouter(BookList);

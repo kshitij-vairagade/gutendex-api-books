@@ -19,12 +19,12 @@
   
   .detail{
     width:114px;
-    font-family: 'Montserat-regular';
+    /* font-family: 'Montserat-regular'; */
     font-size: 12px;
   }
   
   .bookData {
   padding: 5px;
-  font-family: 'Montserat';
+  /* font-family: 'Montserat'; */
   font-size: 13px;
   }

@@ -1,6 +1,6 @@
 {
     "title": "Gutendex Books Project",
-    "api": "http://skunkworks.ignitesol.com:8000/",
+    "api_path": "http://skunkworks.ignitesol.com:8000/",
     "category":[
         "Fiction",
         "Drama",

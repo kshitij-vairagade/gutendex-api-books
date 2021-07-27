@@ -1,11 +1,11 @@
-import "./App.css";
+import "bootstrap/dist/css/bootstrap.css";
 import { Component } from "react";
 import queryString from "query-string";
 import { Route, withRouter } from "react-router-dom";
-import homepage from "./component/homepage";
-import booklist from "./component/booklist";
+import Homepage from "./component/HomePage";
+import Booklist from "./component/BookList";
 
-class App extends Component() {
+class App extends Component {
   constructor(props) {
     super(props);
     this.pushGenre = this.genreHistory.bind(this);
@@ -19,7 +19,7 @@ class App extends Component() {
 
     const query = queryString.stringify(search);
     this.props.history.push(`/books?${query}`);
-  }
+  };
 
   render() {
     return (
@@ -27,9 +27,11 @@ class App extends Component() {
         <Route
           exact
           path="/"
-          component={() => <homepage setGenre={this.pushGenre} />}
+          component={() => (
+          <Homepage setGenre={this.pushGenre} />
+          )}
         />
-        <Route path="/books" component={() => <booklist />} />
+        <Route path="/books" component={()=>(<Booklist />)} />
       </>
     );
   }

@@ -1,0 +1,30 @@
+.bookWrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+   .detailedContainer{
+     padding: 20px;
+     overflow: hidden;
+     cursor: pointer;
+     /* width: 114px;
+     height: 162px; */
+   }
+  
+   .bookImg {
+     width: 114px;
+     height: 162px;
+     border-radius: 8px;
+     box-shadow: 0 2px 5px 0 rgba(211, 209, 238, 0.5);
+   }
+  
+  .detail{
+    width:114px;
+    font-family: 'Montserat-regular';
+    font-size: 12px;
+  }
+  
+  .bookData {
+  padding: 5px;
+  font-family: 'Montserat';
+  font-size: 13px;
+  }

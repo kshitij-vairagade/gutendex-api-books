@@ -2,8 +2,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Component } from "react";
 import queryString from "query-string";
 import { Route, withRouter } from "react-router-dom";
-import HomePage from "./component/HomePage";
-import BookList from "./component/BookList";
+import HomePage from "./Components/HomePage";
+import BookList from "./Components/BookList";
 
 class App extends Component {
   constructor(props) {

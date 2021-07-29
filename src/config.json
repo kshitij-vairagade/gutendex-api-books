@@ -1,7 +1,7 @@
 {
     "title": "Gutendex Books Project",
     "subtitle": "A social cataloging website that allows you to freely search its database of books, annotations, and reviews",
-    "api_path": "http://skunkworks.ignitesol.com:8000",
+    "api_path": "https://skunkworks.ignitesol.com:8000",
     "category":[
         "Fiction",
         "Drama",

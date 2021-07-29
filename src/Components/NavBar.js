@@ -23,19 +23,19 @@ class NavBar extends Component {
   render() {
     return (
         
-        <nav className={"navbar  navbar-expand-lg navbar-light bg-light"}>
+        <nav className={"navbar sticky-top navbar-expand-lg navbar-light bg-light px-2"}>
         <button
           type="button"
-          className="back"
+          className="button"
           onClick={this.props.navigateBack}
           style={{ backgroundImage: backIcon }}
         >
             Back
         </button>
         
-        <form className="form-search">
+        <form className="form-inline my-2 my-lg-0 d-inline-block align-top w-100 px-3">
           <input
-            className="search"
+            className="form-control mr-sm-2"
             type="search"
             placeholder="Search"
             aria-label="search"

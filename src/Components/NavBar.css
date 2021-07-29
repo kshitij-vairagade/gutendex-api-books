@@ -5,3 +5,8 @@
     height: 40px;
     cursor: pointer;
 }
+
+.button{
+    border-radius: 10px;
+    background-color: rgb(117, 197, 218);
+}

@@ -2,8 +2,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Component } from "react";
 import queryString from "query-string";
 import { Route, withRouter } from "react-router-dom";
-import Homepage from "./component/HomePage";
-import Booklist from "./component/BookList";
+import HomePage from "./component/HomePage";
+import BookList from "./component/BookList";
 
 class App extends Component {
   constructor(props) {
@@ -28,10 +28,10 @@ class App extends Component {
           exact
           path="/"
           component={() => (
-          <Homepage setGenre={this.pushGenre} />
+          <HomePage setGenre={this.pushGenre} />
           )}
         />
-        <Route path="/books" component={()=>(<Booklist />)} />
+        <Route path="/books" component={()=>(<BookList />)} />
       </>
     );
   }
